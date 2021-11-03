@@ -2,12 +2,13 @@
 
 <head>
     <title>Geolocation Test</title>
-    <script src="../static/current_location.js"></script>
 </head>
 
 <body>
     <h1>Geolocation Test</h1>
-    <button onclick="currentLocation()">Current Location</button>
+    <form action="/locater" method="post">
+        <input type="submit" value="Current Location">
+    </form>
     <form action="/geocoder" method="post">
         <input type="text" name="place" placeholder="Street Address, City, State, Zip">
         <input type="submit" value="Search">

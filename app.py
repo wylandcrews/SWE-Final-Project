@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, render_template, redirect, url_for
 from geocoder import geocode
+from geolocater import geolocate
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_KEY")
@@ -13,6 +14,13 @@ def index():
 def geocoder():
     address = request.form['place']
     lat, lng = geocode(address)
+    print(lat)
+    print(lng)
+    return redirect(url_for("index"))
+
+@app.route("/locater", methods=["POST"])
+def locater():
+    lat, lng = geolocate()
     print(lat)
     print(lng)
     return redirect(url_for("index"))
