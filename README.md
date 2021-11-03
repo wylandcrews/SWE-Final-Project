@@ -5,6 +5,7 @@ Industry Mentor: Manav Singhal
 ## How We Built It
 ### APIs
 - HTML Geolocation API
+- Google Geocoding API
 ### Tools & Platforms
 - Google Cloud
 - Heroku
@@ -12,5 +13,6 @@ Industry Mentor: Manav Singhal
 ### Languages & Technologies
 - Flask
 - PostgreSQL
+- JavaScript, Python, HTML
 ## Challenges We Encountered
 ## Areas to be Improved
