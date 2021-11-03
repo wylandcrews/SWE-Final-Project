@@ -4,8 +4,7 @@ Industry Mentor: Manav Singhal
 ## What is Map It! ?
 ## How We Built It
 ### APIs
-- HTML Geolocation API
-- Google Geocoding API
+- Google Geocoding and Geolocation APIs
 ### Tools & Platforms
 - Google Cloud
 - Heroku
