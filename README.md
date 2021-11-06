@@ -4,7 +4,7 @@ Industry Mentor: Manav Singhal
 ## What is Map It! ?
 ## How We Built It
 ### APIs
-- HTML Geolocation API
+- Google Geocoding and Geolocation APIs
 ### Tools & Platforms
 - Google Cloud
 - Heroku
@@ -12,5 +12,6 @@ Industry Mentor: Manav Singhal
 ### Languages & Technologies
 - Flask
 - PostgreSQL
+- JavaScript, Python, HTML
 ## Challenges We Encountered
 ## Areas to be Improved
