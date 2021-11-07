@@ -13,6 +13,11 @@
         <input type="text" name="place" placeholder="Street Address, City, State, Zip">
         <input type="submit" value="Search">
     </form>
+    {% if currentWeather and weatherImage %}
+        <p>The current weather in your area is: {{currentWeather}}</p>
+        <img style="height: 50px;width: 50px;"src="{{weatherImage}}" alt="Weather name">
+    {% endif %}
+
 </body>
 
 </html>
