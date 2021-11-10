@@ -1,6 +1,6 @@
 # Map It! by G-Recs
 The Team: Fameda Hossain, Joseph Esfandiari, Swarna Bharathi, and Wyland Crews<br>
-Industry Mentor: Manav Singhal
+Industry Mentor: Manav Singhal<br>
 Check out the app: https://swe-final-project-004.herokuapp.com/
 ## What is Map It! ?
 ## How We Built It
