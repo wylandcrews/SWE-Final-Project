@@ -5,7 +5,7 @@ Check out the app: https://swe-final-project-004.herokuapp.com/
 ## What is Map It! ?
 ## How We Built It
 ### APIs
-- Google Geocoding and Geolocation APIs
+- Google Places, Geocoding and Geolocation APIs
 - Weather API
 ### Tools & Platforms
 - Google Cloud
