@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -22,7 +23,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="#page-top"><img src="static/img/logo.svg" alt="..." /></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
                 <i class="fas fa-bars ms-1"></i>
             </button>
@@ -50,7 +52,8 @@
         <div class="container">
             <div class="text-center">
                 <h2 class="section-heading text-uppercase">Location Finder</h2>
-                <h3 class="section-subheading text-muted">Enter in your location or click current location to locate where you are!</h3>
+                <h3 class="section-subheading text-muted">Enter in your location or click current location to locate
+                    where you are!</h3>
             </div>
             <div class="row text-center">
                 <span class="fa-stack fa-4x">
@@ -59,15 +62,16 @@
                 </span>
                 <div class="form-contents">
                     <form action="/geocoder" method="post">
-                        <input class="search-field" type="text" name="place" placeholder="Street Address, City, State, Zip">
+                        <input class="search-field" type="text" name="place"
+                            placeholder="Street Address, City, State, Zip">
                         <input class="btn btn-primary" type="submit" value="Search">
                     </form>
                     <form action="/locater" method="post">
                         <input class="btn btn-primary" type="submit" value="Current Location">
                     </form>
                     {% if currentWeather and weatherImage %}
-                        <p>The current weather in your area is: {{currentWeather}}</p>
-                        <img src="{{weatherImage}}" alt="Weather name">
+                    <p>The current weather in your area is: {{currentWeather}}</p>
+                    <img src="{{weatherImage}}" alt="Weather name">
                     {% endif %}
                 </div>
             </div>
