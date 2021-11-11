@@ -64,8 +64,6 @@ def geocoder():
     lat_recommendation, lng_recommendation = get_recommendation(
         lat=lat, lng=lng, place_type=place_type, radius=radius
     )
-    print(lat_recommendation)
-    print(lng_recommendation)
     session["lat_recommendation"] = lat_recommendation
     session["lng_recommendation"] = lng_recommendation
     return redirect(url_for("index"))
@@ -85,8 +83,6 @@ def locater():
     lat_recommendation, lng_recommendation = get_recommendation(
         lat=lat, lng=lng, place_type=place_type, radius=radius
     )
-    print(lat_recommendation)
-    print(lng_recommendation)
     session["lat_recommendation"] = lat_recommendation
     session["lng_recommendation"] = lng_recommendation
     return redirect(url_for("index"))
