@@ -19,15 +19,16 @@ app.config["SESSION_TYPE"] = "filesystem"
 
 # Block below commented out for use once DB is set up
 # Update DB URL as seen in Milestone 3
-# db_url = os.getenv("DATABASE_URL")
-# if db_url.startswith("postgres://"):
-#    db_url = db_url.replace("postgres://", "postgresql://", 1)
-# app.config["SQLALCHEMY_DATABASE_URI"] = db_url
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+db_url = os.getenv("DATABASE_URL")
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+app.config["SQLALCHEMY_DATABASE_URI"] = db_url
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 Session(app)
 
-# db = SQLAlchemy(app)
+db = SQLAlchemy(app)
 
 
 @app.route("/")
@@ -37,13 +38,18 @@ def index():
     lat_recommendation = session.get("lat_recommendation", None)
     lng_recommendation = session.get("lng_recommendation", None)
 
-    if currentWeather != None and weatherImage != None and lat_recommendation != None and lng_recommendation != None:
+    if (
+        currentWeather != None
+        and weatherImage != None
+        and lat_recommendation != None
+        and lng_recommendation != None
+    ):
         return render_template(
             "index.html",
             currentWeather=currentWeather,
             weatherImage=weatherImage,
             lat_recommendation=lat_recommendation,
-            lng_recommendation=lng_recommendation
+            lng_recommendation=lng_recommendation,
         )
 
     return render_template("index.html")
@@ -86,6 +92,53 @@ def locater():
     session["lat_recommendation"] = lat_recommendation
     session["lng_recommendation"] = lng_recommendation
     return redirect(url_for("index"))
+
+
+@app.route("/signup")
+def signup():
+    """
+    Signup endpoint for GET requests
+    """
+    return flask.render_template("signup.html")
+
+
+@app.route("/signup", methods=["POST"])
+def signup_post():
+    """
+    Handler for signup form data
+    """
+    username = flask.request.form.get("username")
+    user = User.query.filter_by(username=username).first()
+    if user:
+        pass
+    else:
+        user = User(username=username)
+        db.session.add(user)
+        db.session.commit()
+
+    return flask.redirect(flask.url_for("login"))
+
+
+@app.route("/login")
+def login():
+    """
+    Login endpoint for GET requests
+    """
+    return flask.render_template("login.html")
+
+
+@app.route("/login", methods=["POST"])
+def login_post():
+    """
+    Handler for login form data
+    """
+    username = flask.request.form.get("username")
+    user = User.query.filter_by(username=username).first()
+    if user:
+        login_user(user)
+        return flask.redirect(flask.url_for("bp.index"))
+
+    return flask.jsonify({"status": 401, "reason": "Username or Password Error"})
 
 
 app.run(host=os.getenv("IP", "0.0.0.0"), port=int(os.getenv("PORT", 8080)), debug=True)
