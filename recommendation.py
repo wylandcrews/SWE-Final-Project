@@ -16,4 +16,5 @@ def get_recommendation(lat, lng, place_type, radius):
     payload["lat_recommendation"] = recommendation["geometry"]["location"]["lat"]
     payload["lng_recommendation"] = recommendation["geometry"]["location"]["lng"]
     payload["rating"] = recommendation["rating"]
+    payload["place_name"] = recommendation["name"]
     return payload
