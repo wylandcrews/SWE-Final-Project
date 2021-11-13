@@ -61,12 +61,15 @@ def geocoder():
     # place_type and radius are hardcoded for now
     place_type = "restaurant"
     radius = 5000
-    lat_recommendation, lng_recommendation = get_recommendation(
-        lat=lat, lng=lng, place_type=place_type, radius=radius
-    )
-    session["lat_recommendation"] = lat_recommendation
-    session["lng_recommendation"] = lng_recommendation
-    return redirect(url_for("index"))
+    try:
+        lat_recommendation, lng_recommendation = get_recommendation(
+            lat=lat, lng=lng, place_type=place_type, radius=radius
+        )
+        session["lat_recommendation"] = lat_recommendation
+        session["lng_recommendation"] = lng_recommendation
+        return redirect(url_for("index"))
+    except:
+        return render_template("error.html")
 
 
 @app.route("/locater", methods=["POST"])
@@ -80,12 +83,18 @@ def locater():
     # place_type and radius are hardcoded for now
     place_type = "restaurant"
     radius = 5000
-    lat_recommendation, lng_recommendation = get_recommendation(
-        lat=lat, lng=lng, place_type=place_type, radius=radius
-    )
-    session["lat_recommendation"] = lat_recommendation
-    session["lng_recommendation"] = lng_recommendation
-    return redirect(url_for("index"))
+    try:
+        lat_recommendation, lng_recommendation = get_recommendation(
+            lat=lat, lng=lng, place_type=place_type, radius=radius
+        )
+        session["lat_recommendation"] = lat_recommendation
+        session["lng_recommendation"] = lng_recommendation
+        return redirect(url_for("index"))
+    except:
+        return render_template("error.html")
 
+@app.route("/error", methods=["POST"])
+def retry():
+    return redirect(url_for("index"))
 
 app.run(host=os.getenv("IP", "0.0.0.0"), port=int(os.getenv("PORT", 8080)), debug=True)
