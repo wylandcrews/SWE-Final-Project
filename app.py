@@ -39,6 +39,7 @@ def index():
     rating = session.get("rating", None)
     place_name = session.get("place_name", None)
     place_url = session.get("place_url", None)
+    photo = session.get("photo", None)
 
     if (
         currentWeather != None
@@ -58,6 +59,7 @@ def index():
             rating=rating,
             place_name=place_name,
             place_url=place_url,
+            photo=photo,
         )
 
     return render_template("index.html")
@@ -84,6 +86,7 @@ def geocoder():
         session["rating"] = payload.get("rating")
         session["place_name"] = payload.get("place_name")
         session["place_url"] = payload.get("url")
+        session["photo"] = payload.get("photo")
         return redirect(url_for("index"))
     except:
         return render_template("error.html")
@@ -109,6 +112,7 @@ def locater():
         session["rating"] = payload.get("rating")
         session["place_name"] = payload.get("place_name")
         session["place_url"] = payload.get("url")
+        session["photo"] = payload.get("photo")
         return redirect(url_for("index"))
     except:
         return render_template("error.html")

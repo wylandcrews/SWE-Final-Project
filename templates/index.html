@@ -73,6 +73,9 @@
                     <p>The current weather in your area is: {{currentWeather}}</p>
                     <img src="{{weatherImage}}" alt="Weather name">
                     <h4>{{place_name}}</h4>
+                    {% if photo %}
+                    <img src="{{photo}}" alt="Place Image" />
+                    {% endif %}
                     <p>Rating: {{rating}} Stars</p>
                     <input class="btn btn-primary" type="button" onclick="location.href='{{place_url}}'"
                         value="Visit!" />
