@@ -36,12 +36,14 @@ def index():
     weatherImage = session.get("weatherImage", None)
     lat_recommendation = session.get("lat_recommendation", None)
     lng_recommendation = session.get("lng_recommendation", None)
+    rating = session.get("rating", None)
 
     if (
         currentWeather != None
         and weatherImage != None
         and lat_recommendation != None
         and lng_recommendation != None
+        and rating != None
     ):
         return render_template(
             "index.html",
@@ -49,6 +51,7 @@ def index():
             weatherImage=weatherImage,
             lat_recommendation=lat_recommendation,
             lng_recommendation=lng_recommendation,
+            rating=rating,
         )
 
     return render_template("index.html")
@@ -72,6 +75,7 @@ def geocoder():
         )
         session["lat_recommendation"] = payload.get("lat_recommendation")
         session["lng_recommendation"] = payload.get("lng_recommendation")
+        session["rating"] = payload.get("rating")
         return redirect(url_for("index"))
     except:
         return render_template("error.html")
@@ -94,6 +98,7 @@ def locater():
         )
         session["lat_recommendation"] = payload.get("lat_recommendation")
         session["lng_recommendation"] = payload.get("lng_recommendation")
+        session["rating"] = payload.get("rating")
         return redirect(url_for("index"))
     except:
         return render_template("error.html")
