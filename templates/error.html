@@ -51,32 +51,14 @@
     <section class="page-section" id="discover">
         <div class="container">
             <div class="text-center">
-                <h2 class="section-heading text-uppercase">Location Finder</h2>
-                <h3 class="section-subheading text-muted">Enter in your location or click current location to locate
-                    where you are!</h3>
+                <h2 class="section-heading text-uppercase">No Results Found</h2>
+                <h3 class="section-subheading text-muted">Click the button below to try again!</h3>
             </div>
             <div class="row text-center">
-                <span class="fa-stack fa-4x">
-                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <i class="fas fa-map-signs fa-stack-1x fa-inverse"></i>
-                </span>
                 <div class="form-contents">
-                    <form action="/geocoder" method="post">
-                        <input class="search-field" type="text" name="place"
-                            placeholder="Street Address, City, State, Zip">
-                        <input class="btn btn-primary" type="submit" value="Search">
+                    <form action="/error" method="post">
+                        <input class="btn btn-primary" type="submit" value="Try Again!">
                     </form>
-                    <form action="/locater" method="post">
-                        <input class="btn btn-primary" type="submit" value="Current Location">
-                    </form>
-                    {% if currentWeather and weatherImage %}
-                    <p>The current weather in your area is: {{currentWeather}}</p>
-                    <img src="{{weatherImage}}" alt="Weather name">
-                    <h4>{{place_name}}</h4>
-                    <p>Rating: {{rating}} Stars</p>
-                    <input class="btn btn-primary" type="button" onclick="location.href='{{place_url}}'"
-                        value="Visit!" />
-                    {% endif %}
                 </div>
             </div>
         </div>
