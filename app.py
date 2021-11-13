@@ -37,13 +37,18 @@ def index():
     lat_recommendation = session.get("lat_recommendation", None)
     lng_recommendation = session.get("lng_recommendation", None)
 
-    if currentWeather != None and weatherImage != None and lat_recommendation != None and lng_recommendation != None:
+    if (
+        currentWeather != None
+        and weatherImage != None
+        and lat_recommendation != None
+        and lng_recommendation != None
+    ):
         return render_template(
             "index.html",
             currentWeather=currentWeather,
             weatherImage=weatherImage,
             lat_recommendation=lat_recommendation,
-            lng_recommendation=lng_recommendation
+            lng_recommendation=lng_recommendation,
         )
 
     return render_template("index.html")
@@ -62,11 +67,11 @@ def geocoder():
     place_type = "restaurant"
     radius = 5000
     try:
-        lat_recommendation, lng_recommendation = get_recommendation(
+        payload = get_recommendation(
             lat=lat, lng=lng, place_type=place_type, radius=radius
         )
-        session["lat_recommendation"] = lat_recommendation
-        session["lng_recommendation"] = lng_recommendation
+        session["lat_recommendation"] = payload.get("lat_recommendation")
+        session["lng_recommendation"] = payload.get("lng_recommendation")
         return redirect(url_for("index"))
     except:
         return render_template("error.html")
@@ -84,17 +89,19 @@ def locater():
     place_type = "restaurant"
     radius = 5000
     try:
-        lat_recommendation, lng_recommendation = get_recommendation(
+        payload = get_recommendation(
             lat=lat, lng=lng, place_type=place_type, radius=radius
         )
-        session["lat_recommendation"] = lat_recommendation
-        session["lng_recommendation"] = lng_recommendation
+        session["lat_recommendation"] = payload.get("lat_recommendation")
+        session["lng_recommendation"] = payload.get("lng_recommendation")
         return redirect(url_for("index"))
     except:
         return render_template("error.html")
 
+
 @app.route("/error", methods=["POST"])
 def retry():
     return redirect(url_for("index"))
+
 
 app.run(host=os.getenv("IP", "0.0.0.0"), port=int(os.getenv("PORT", 8080)), debug=True)
