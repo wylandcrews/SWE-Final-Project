@@ -1,11 +1,11 @@
 import os
+from dotenv import load_dotenv, find_dotenv
 from flask import Flask, request, render_template, redirect, url_for, session
 from flask_session import Session
 from geocoder import geocode
 from geolocater import geolocate
 from weather import weatherAPI
 from recommendation import get_recommendation
-from dotenv import load_dotenv, find_dotenv
 
 # from flask_sqlalchemy import SQLAlchemy
 
@@ -41,12 +41,12 @@ def index():
     place_id = session.get("place_id", None)
 
     if (
-        currentWeather != None
-        and weatherImage != None
-        and rating != None
-        and place_name != None
-        and place_url != None
-        and place_id != None
+        currentWeather is not None
+        and weatherImage is not None
+        and rating is not None
+        and place_name is not None
+        and place_url is not None
+        and place_id is not None
     ):
         return render_template(
             "index.html",

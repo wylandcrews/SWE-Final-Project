@@ -1,6 +1,7 @@
-import os, requests
-from dotenv import find_dotenv, load_dotenv
+import os
 import random
+import requests
+from dotenv import find_dotenv, load_dotenv
 
 
 def get_recommendation(lat, lng, place_type, radius):
@@ -21,6 +22,7 @@ def get_recommendation(lat, lng, place_type, radius):
     payload["photo"] = get_photo(photo_reference=photo_reference)
     return payload
 
+
 def get_url(place_id):
     key = os.getenv("GOOGLE_KEY")
     base_url = "https://maps.googleapis.com/maps/api/place/details/json"
@@ -28,6 +30,7 @@ def get_url(place_id):
     r = requests.get(endpoint)
     url = r.json()["result"]["url"]
     return url
+
 
 def get_photo(photo_reference):
     key = os.getenv("GOOGLE_KEY")

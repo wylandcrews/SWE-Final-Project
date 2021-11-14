@@ -1,5 +1,5 @@
-import os, requests
-import json
+import os
+import requests
 
 
 def weatherAPI(lat, lng):

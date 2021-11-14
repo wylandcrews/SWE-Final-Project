@@ -1,10 +1,10 @@
-import os, requests
+import os
+import requests
 
 
 def geocode(address):
     lat, lng = None, None
     key = os.getenv("GOOGLE_KEY")
-    address = address
     base_url = "https://maps.googleapis.com/maps/api/geocode/json"
     endpoint = f"{base_url}?address={address}&key={key}"
     r = requests.get(endpoint)
