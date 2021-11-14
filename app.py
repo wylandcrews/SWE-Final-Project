@@ -1,3 +1,6 @@
+"""
+Flask server file for this project
+"""
 import os
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, request, render_template, redirect, url_for, session
@@ -32,6 +35,9 @@ Session(app)
 
 @app.route("/")
 def index():
+    """
+    Defines the function for the index page.
+    """
     currentWeather = session.get("currentWeather", None)
     weatherImage = session.get("weatherImage", None)
     rating = session.get("rating", None)
@@ -64,6 +70,9 @@ def index():
 
 @app.route("/geocoder", methods=["POST"])
 def geocoder():
+    """
+    Call geocode from geocoder.py if a user enters an address.
+    """
     try:
         address = request.form["place"]
         lat, lng = geocode(address)
@@ -84,12 +93,15 @@ def geocoder():
         session["photo"] = payload.get("photo")
         session["place_id"] = payload.get("place_id")
         return redirect(url_for("index"))
-    except:
+    except Exception:
         return render_template("error.html")
 
 
 @app.route("/locater", methods=["POST"])
 def locater():
+    """
+    Call geolocate from geolocater.py if user chooses current location.
+    """
     try:
         lat, lng = geolocate()
         weatherResults = weatherAPI(lat, lng)
@@ -109,12 +121,16 @@ def locater():
         session["photo"] = payload.get("photo")
         session["place_id"] = payload.get("place_id")
         return redirect(url_for("index"))
-    except:
+    except Exception:
         return render_template("error.html")
 
 
 @app.route("/error", methods=["POST"])
 def retry():
+    """
+    Render error.html if any exceptions occur.
+    User will click a button that attempts to render index.html.
+    """
     return redirect(url_for("index"))
 
 

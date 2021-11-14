@@ -1,3 +1,6 @@
+"""
+Obtain a recommended place based on the user's desired location, weather, and distance.
+"""
 import os
 import random
 import requests
@@ -5,6 +8,10 @@ from dotenv import find_dotenv, load_dotenv
 
 
 def get_recommendation(lat, lng, place_type, radius):
+    """
+    Initiate a Nearby Search from the Google Places API
+    Return a payload of the place's name, rating, id, Maps URL, and Photo
+    """
     load_dotenv(find_dotenv())
     payload = {}
     key = os.getenv("GOOGLE_KEY")
@@ -24,6 +31,9 @@ def get_recommendation(lat, lng, place_type, radius):
 
 
 def get_url(place_id):
+    """
+    Call the Place Details function to obtain a Maps URL for the place
+    """
     key = os.getenv("GOOGLE_KEY")
     base_url = "https://maps.googleapis.com/maps/api/place/details/json"
     endpoint = f"{base_url}?place_id={place_id}&fields=url&key={key}"
@@ -33,6 +43,11 @@ def get_url(place_id):
 
 
 def get_photo(photo_reference):
+    """
+    Obtain a photo of the place using the photo_reference retrieved in get_recommendation.
+    The photo object is written to placeImage.jpg
+    placeImage.jpg is overwritten each time a recommendation is retrieved.
+    """
     key = os.getenv("GOOGLE_KEY")
     endpoint = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={photo_reference}&key={key}"
     r = requests.get(endpoint)

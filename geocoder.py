@@ -1,8 +1,14 @@
+"""
+Call Google Geocoding API to turn address into lat/long
+"""
 import os
 import requests
 
 
 def geocode(address):
+    """
+    Return that latitude and longitude of the address the user entered
+    """
     lat, lng = None, None
     key = os.getenv("GOOGLE_KEY")
     base_url = "https://maps.googleapis.com/maps/api/geocode/json"
