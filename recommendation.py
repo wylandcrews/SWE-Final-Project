@@ -19,6 +19,8 @@ def get_recommendation(lat, lng, place_type, radius):
     payload["place_name"] = recommendation["name"]
     place_id = recommendation["place_id"]
     payload["url"] = get_url(place_id)
+    photo_reference = recommendation["photos"][0]["photo_reference"]
+    payload["photo"] = get_photo(photo_reference=photo_reference)
     return payload
 
 def get_url(place_id):
@@ -28,3 +30,17 @@ def get_url(place_id):
     r = requests.get(endpoint)
     url = r.json()["result"]["url"]
     return url
+
+def get_photo(photo_reference):
+    key = os.getenv("GOOGLE_KEY")
+    endpoint = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference={photo_reference}&key={key}"
+    r = requests.get(endpoint)
+    if r.status_code != 200:
+        return None
+    else:
+        f = open("static/placeImage.jpg", "wb")
+        for chunk in r:
+            if chunk:
+                f.write(chunk)
+        f.close()
+        return "static/placeImage.jpg"
