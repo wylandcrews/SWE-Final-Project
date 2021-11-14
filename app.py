@@ -34,32 +34,29 @@ Session(app)
 def index():
     currentWeather = session.get("currentWeather", None)
     weatherImage = session.get("weatherImage", None)
-    lat_recommendation = session.get("lat_recommendation", None)
-    lng_recommendation = session.get("lng_recommendation", None)
     rating = session.get("rating", None)
     place_name = session.get("place_name", None)
     place_url = session.get("place_url", None)
     photo = session.get("photo", None)
+    place_id = session.get("place_id", None)
 
     if (
         currentWeather != None
         and weatherImage != None
-        and lat_recommendation != None
-        and lng_recommendation != None
         and rating != None
         and place_name != None
         and place_url != None
+        and place_id != None
     ):
         return render_template(
             "index.html",
             currentWeather=currentWeather,
             weatherImage=weatherImage,
-            lat_recommendation=lat_recommendation,
-            lng_recommendation=lng_recommendation,
             rating=rating,
             place_name=place_name,
             place_url=place_url,
             photo=photo,
+            place_id=place_id,
         )
 
     return render_template("index.html")
@@ -67,26 +64,25 @@ def index():
 
 @app.route("/geocoder", methods=["POST"])
 def geocoder():
-    address = request.form["place"]
-    lat, lng = geocode(address)
-    weatherResults = weatherAPI(lat, lng)
-    currentWeather = weatherResults[0]
-    weatherImage = weatherResults[1]
-    session["currentWeather"] = currentWeather
-    session["weatherImage"] = weatherImage
-    # place_type and radius are hardcoded for now
-    place_type = "restaurant"
-    radius = 5000
     try:
+        address = request.form["place"]
+        lat, lng = geocode(address)
+        weatherResults = weatherAPI(lat, lng)
+        currentWeather = weatherResults[0]
+        weatherImage = weatherResults[1]
+        session["currentWeather"] = currentWeather
+        session["weatherImage"] = weatherImage
+        # place_type and radius are hardcoded for now
+        place_type = "restaurant"
+        radius = 5000
         payload = get_recommendation(
             lat=lat, lng=lng, place_type=place_type, radius=radius
         )
-        session["lat_recommendation"] = payload.get("lat_recommendation")
-        session["lng_recommendation"] = payload.get("lng_recommendation")
         session["rating"] = payload.get("rating")
         session["place_name"] = payload.get("place_name")
         session["place_url"] = payload.get("url")
         session["photo"] = payload.get("photo")
+        session["place_id"] = payload.get("place_id")
         return redirect(url_for("index"))
     except:
         return render_template("error.html")
@@ -94,25 +90,24 @@ def geocoder():
 
 @app.route("/locater", methods=["POST"])
 def locater():
-    lat, lng = geolocate()
-    weatherResults = weatherAPI(lat, lng)
-    currentWeather = weatherResults[0]
-    weatherImage = weatherResults[1]
-    session["currentWeather"] = currentWeather
-    session["weatherImage"] = weatherImage
-    # place_type and radius are hardcoded for now
-    place_type = "restaurant"
-    radius = 5000
     try:
+        lat, lng = geolocate()
+        weatherResults = weatherAPI(lat, lng)
+        currentWeather = weatherResults[0]
+        weatherImage = weatherResults[1]
+        session["currentWeather"] = currentWeather
+        session["weatherImage"] = weatherImage
+        # place_type and radius are hardcoded for now
+        place_type = "restaurant"
+        radius = 5000
         payload = get_recommendation(
             lat=lat, lng=lng, place_type=place_type, radius=radius
         )
-        session["lat_recommendation"] = payload.get("lat_recommendation")
-        session["lng_recommendation"] = payload.get("lng_recommendation")
         session["rating"] = payload.get("rating")
         session["place_name"] = payload.get("place_name")
         session["place_url"] = payload.get("url")
         session["photo"] = payload.get("photo")
+        session["place_id"] = payload.get("place_id")
         return redirect(url_for("index"))
     except:
         return render_template("error.html")
