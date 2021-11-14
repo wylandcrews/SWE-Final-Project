@@ -1,0 +1,9 @@
+[MESSAGES CONTROL]
+disable=
+    invalid-name,
+    broad-except,
+    invalid-envvar-default,
+    too-many-boolean-expressions,
+    line-too-long,
+    no-else-return,
+    consider-using-with

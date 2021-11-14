@@ -1,8 +1,14 @@
-import os, requests
-import json
+"""
+Obtain the current weather at a specific latitude and longitude
+"""
+import os
+import requests
 
 
 def weatherAPI(lat, lng):
+    """
+    Call the Weather API to retrieve current weather and a respective icon
+    """
     location = str(lat) + "," + str(lng)
     key = os.getenv("WEATHER_API")
     base_url = "http://api.weatherapi.com/v1/current.json?"
