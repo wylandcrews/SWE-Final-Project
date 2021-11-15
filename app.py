@@ -15,12 +15,12 @@ from flask_login import (
 )
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_session import Session
 from geocoder import geocode
 from geolocater import geolocate
 from weather import weatherAPI
 from recommendation import get_recommendation
 from auth import OAuthLogin
-from flask_session import Session
 
 load_dotenv(find_dotenv())
 
