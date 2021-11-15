@@ -70,6 +70,15 @@ class userCredentials(UserMixin, db.Model):
         return check_password_hash(self.password, password)
 
 
+class savedSearches(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(150), nullable=False)
+    savedplaces = db.Column(db.String(1000), nullable=False)
+
+    def __repr__(self):
+        return f"<savedSearches {self.username}>"
+
+
 db.create_all()
 
 
