@@ -1,6 +1,13 @@
+"""
+User Authorization Module
+Google OAuth Logic borrowed from:
+https://github.com/lepture/flask-oauthlib/blob/master/example/google.py
+
+Facebook OAuth Logic borrowed from:
+https://github.com/lepture/flask-oauthlib/blob/master/example/facebook.py
+"""
 import os
 from dotenv import load_dotenv, find_dotenv
-import requests
 from flask import url_for, session, jsonify
 from flask_oauthlib.client import OAuthException
 
@@ -8,14 +15,6 @@ load_dotenv(find_dotenv())
 
 # DATABASE imports
 # from user import User
-
-"""
-Google OAuth Logic borrowed from:
-https://github.com/lepture/flask-oauthlib/blob/master/example/google.py
-
-Facebook OAuth Logic borrowed from:
-https://github.com/lepture/flask-oauthlib/blob/master/example/facebook.py
-"""
 
 # STATIC VARIABLES
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", None)
@@ -26,6 +25,10 @@ FB_CLIENT_SECRET = os.getenv("FB_CLIENT_SECRET", None)
 
 
 class OAuthLogin:
+    """
+    Class for Google and Facebook Login
+    """
+
     def __init__(self, oauth, app):
         if FB_CLIENT_ID is None or GOOGLE_CLIENT_ID is None:
             print("Please fill out env file with the appropriate variables")

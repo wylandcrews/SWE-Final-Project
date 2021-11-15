@@ -4,17 +4,10 @@ Flask server file for this project
 import os
 import flask
 from flask import Flask, request, render_template, redirect, url_for, session
-from flask_session import Session
-from geocoder import geocode
-from geolocater import geolocate
-from weather import weatherAPI
-from recommendation import get_recommendation
 from dotenv import load_dotenv, find_dotenv
 from flask_oauthlib.client import OAuth
-from auth import OAuthLogin
 from flask_login import (
     LoginManager,
-    current_user,
     login_required,
     login_user,
     logout_user,
@@ -22,6 +15,12 @@ from flask_login import (
 )
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from geocoder import geocode
+from geolocater import geolocate
+from weather import weatherAPI
+from recommendation import get_recommendation
+from auth import OAuthLogin
+from flask_session import Session
 
 load_dotenv(find_dotenv())
 
@@ -52,25 +51,45 @@ db = SQLAlchemy(app)
 
 
 class userCredentials(UserMixin, db.Model):
+    """
+    userCredentials class contains fields for a user's username, email, and password.
+    """
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150))
     email = db.Column(db.String(200))
     password = db.Column(db.String(250))
 
     def __repr__(self):
+        """
+        Return self
+        """
         return f"<userCredentials {self.username}>"
 
     def get_username(self):
+        """
+        Return username
+        """
         return self.username
 
     def set_password(self, password):
+        """
+        Return password
+        """
         self.password = generate_password_hash(password)
 
     def check_password(self, password):
+        """
+        Check input password against database password for validation
+        """
         return check_password_hash(self.password, password)
 
 
 class savedSearches(db.Model):
+    """
+    Saved searches database that will store saved place_id's separated by commas.
+    """
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), nullable=False)
     savedplaces = db.Column(db.String(1000), nullable=False)
@@ -84,11 +103,17 @@ db.create_all()
 
 @login_manager.user_loader
 def load_user(user_name):
+    """
+    User loader method
+    """
     return userCredentials.query.get(user_name)
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    """
+    Register method that will be used for email/password login
+    """
     users = userCredentials.query.all()
     userList = []
     for user in users:
@@ -118,6 +143,9 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """
+    Login method using email and password
+    """
     users = userCredentials.query.all()
     emailList = []
     for user in users:
@@ -129,7 +157,7 @@ def login():
         current = userCredentials.query.filter_by(email=email).first()
         passwordCheck = current.check_password(password)
 
-        if email not in emailList or passwordCheck == False:
+        if email not in emailList or passwordCheck is False:
             flask.flash("This email or password combination is incorrect.")
 
         else:
@@ -141,6 +169,9 @@ def login():
 
 @app.route("/login/callback/google")
 def google_callback():
+    """
+    Google Login Callback
+    """
     user_data = oauth_client.google_callback(request)
     user = userCredentials.query.filter_by(username=user_data).first()
     if user:
@@ -154,6 +185,9 @@ def google_callback():
 
 @app.route("/login/callback/facebook")
 def facebook_callback():
+    """
+    Facebook Login Callback
+    """
     user_data = oauth_client.meta_callback(request)
     user = userCredentials.query.filter_by(username=user_data).first()
     if user:
@@ -167,17 +201,21 @@ def facebook_callback():
 
 @app.route("/sso/google")
 def login_google():
-    # Use library to construct the request for Google login and provide
-    # scopes that let you retrieve user's profile from Google
+    """
+    Use library to construct the request for Google login and provide
+    scopes that let you retrieve user's profile from Google
 
-    # don't need redirect here because the function call returns a redirect
+    don't need redirect here because the function call returns a redirect
+    """
     return oauth_client.google_auth()
 
 
 @app.route("/sso/facebook")
 def login_facebook():
-    # Use library to construct the request for Facebook login and
-    # provide scopes that let you retrieve the user's profile from FB
+    """
+    Use library to construct the request for Facebook login and
+    provide scopes that let you retrieve the user's profile from FB
+    """
 
     return oauth_client.meta_auth(request)
 
@@ -286,6 +324,9 @@ def retry():
 @app.route("/logout")
 @login_required
 def logout():
+    """
+    Logout method
+    """
     logout_user()
     return flask.redirect(flask.url_for("index"))
 
