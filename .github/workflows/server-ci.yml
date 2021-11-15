@@ -39,4 +39,4 @@ jobs:
         run: pip install pylint
         
       - name: Lint files
-        run: find . -name '*.py' -exec pylint {} \;
+        run: find . -name '*.py' -exec pylint --rcfile=.pylintrc {} \;
