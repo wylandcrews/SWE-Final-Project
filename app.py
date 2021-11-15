@@ -1,4 +1,5 @@
 import os
+import flask
 from flask import Flask, request, render_template, redirect, url_for, session
 from flask_session import Session
 from geocoder import geocode
@@ -6,8 +7,18 @@ from geolocater import geolocate
 from weather import weatherAPI
 from recommendation import get_recommendation
 from dotenv import load_dotenv, find_dotenv
-
-# from flask_sqlalchemy import SQLAlchemy
+from flask_oauthlib.client import OAuth
+from auth import OAuthLogin
+from flask_login import (
+    LoginManager,
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+    UserMixin,
+)
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 load_dotenv(find_dotenv())
 
@@ -16,18 +27,147 @@ app.secret_key = os.getenv("FLASK_KEY")
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+oauth_client = OAuthLogin(OAuth(app), app)
 
 # Block below commented out for use once DB is set up
 # Update DB URL as seen in Milestone 3
-# db_url = os.getenv("DATABASE_URL")
-# if db_url.startswith("postgres://"):
-#    db_url = db_url.replace("postgres://", "postgresql://", 1)
-# app.config["SQLALCHEMY_DATABASE_URI"] = db_url
-# app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db_url = os.getenv("DATABASE_URL")
+if db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+app.config["SQLALCHEMY_DATABASE_URI"] = db_url
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
 
 Session(app)
 
-# db = SQLAlchemy(app)
+db = SQLAlchemy(app)
+
+
+class userCredentials(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(150))
+    email = db.Column(db.String(200))
+    password = db.Column(db.String(250))
+
+    def __repr__(self):
+        return f"<userCredentials {self.username}>"
+
+    def get_username(self):
+        return self.username
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
+
+db.create_all()
+
+
+@login_manager.user_loader
+def load_user(user_name):
+    return userCredentials.query.get(user_name)
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    users = userCredentials.query.all()
+    userList = []
+    for user in users:
+        userList.append(user.username)
+
+    if flask.request.method == "POST":
+        username = flask.request.form.get("username")
+        email = flask.request.form.get("email")
+        password = flask.request.form.get("password")
+        confirmPassword = flask.request.form.get("confirmPassword")
+
+        if password != confirmPassword:
+            flask.flash("The passwords do not match.")
+
+        elif username in userList:
+            flask.flash("This username already exists, please input another username.")
+
+        else:
+            newUser = userCredentials(username=username, email=email)
+            newUser.set_password(password)
+            db.session.add(newUser)
+            db.session.commit()
+            return flask.redirect(flask.url_for("login"))
+
+    return render_template("register.html")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    users = userCredentials.query.all()
+    emailList = []
+    for user in users:
+        emailList.append(user.email)
+
+    if flask.request.method == "POST":
+        email = flask.request.form.get("email")
+        password = flask.request.form.get("password")
+        current = userCredentials.query.filter_by(email=email).first()
+        passwordCheck = current.check_password(password)
+
+        if email not in emailList or passwordCheck == False:
+            flask.flash("This email or password combination is incorrect.")
+
+        else:
+            login_user(current)
+            return flask.redirect(flask.url_for("index"))
+
+    return render_template("login.html")
+
+
+@app.route("/login/callback/google")
+def google_callback():
+    user_data = oauth_client.google_callback(request)
+    user = userCredentials.query.filter_by(username=user_data).first()
+    if user:
+        pass
+    else:
+        user = userCredentials(username=user_data)
+        db.session.add(user)
+        db.session.commit()
+    pass
+
+
+@app.route("/login/callback/facebook")
+def facebook_callback():
+    user_data = oauth_client.meta_callback(request)
+    user = userCredentials.query.filter_by(username=user_data).first()
+    if user:
+        pass
+    else:
+        user = userCredentials(username=user_data)
+        db.session.add(user)
+        db.session.commit()
+    pass
+
+
+@app.route("/sso/google")
+def login_google():
+    # Use library to construct the request for Google login and provide
+    # scopes that let you retrieve user's profile from Google
+
+    # don't need redirect here because the function call returns a redirect
+    return oauth_client.google_auth()
+
+
+@app.route("/sso/facebook")
+def login_facebook():
+    # Use library to construct the request for Facebook login and
+    # provide scopes that let you retrieve the user's profile from FB
+
+    return oauth_client.meta_auth(request)
 
 
 @app.route("/")
@@ -123,4 +263,15 @@ def retry():
     return redirect(url_for("index"))
 
 
-app.run(host=os.getenv("IP", "0.0.0.0"), port=int(os.getenv("PORT", 8080)), debug=True)
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return flask.redirect(flask.url_for("index"))
+
+
+app.run(
+    host=os.getenv("IP", "0.0.0.0"),
+    port=int(os.getenv("PORT", 8080)),
+    debug=True,
+)
