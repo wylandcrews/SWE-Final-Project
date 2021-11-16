@@ -355,6 +355,7 @@ def save_place():
 
 
 @app.route("/profile")
+@login_required
 def profile():
     """
     Render the user's profile
