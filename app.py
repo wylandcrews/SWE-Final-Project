@@ -2,8 +2,8 @@
 Flask server file for this project
 """
 import os
-import flask
 import random
+import flask
 from flask import Flask, request, render_template, redirect, url_for, session
 from dotenv import load_dotenv, find_dotenv
 from flask_oauthlib.client import OAuth
@@ -18,6 +18,7 @@ from flask_login import (
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_session import Session
+from favorite_place import favorite_details
 from geocoder import geocode
 from geolocater import geolocate
 from weather import weatherAPI
@@ -351,13 +352,28 @@ def save_place():
     db.session.commit()
     return redirect(url_for("profile"))
 
-#@app.route("/profile")
-#def profile():
-#    """
-#    Render the user's profile
-#    """
-#    username = current_user.username
-#    return render_template("profile.html")
+
+@app.route("/profile")
+def profile():
+    """
+    Render the user's profile
+    """
+    username = current_user.username
+    current_row = savedSearches.query.filter_by(username=username).first()
+    place_id = current_row.savedplaces
+    details = favorite_details(place_id=place_id)
+    fav_photo = details["photo"]
+    fav_place_url = details["url"]
+    fav_rating = details["rating"]
+    fav_place_name = details["name"]
+    return render_template(
+        "profile.html",
+        username=username,
+        fav_photo=fav_photo,
+        fav_place_url=fav_place_url,
+        fav_rating=fav_rating,
+        fav_place_name=fav_place_name,
+    )
 
 
 @app.route("/error", methods=["POST"])
