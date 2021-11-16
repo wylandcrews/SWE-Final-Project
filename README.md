@@ -33,7 +33,8 @@ The following errors/warnings were disabled for reasons listed below:
 - ```unused-argument```: Argument is needed for use in another module.
 ## Challenges We Encountered
 - The method used to encrypt the password for the registration and login page caused some difficulty in terms of how I was validating the user's inputted password on the login page and the encrypted password that was located in the database. The types of both passwords were different and there wasn't a clear cut solution to solve how to validate that they were equal. The method was later changed to hashing which proved to be a much more safe and easier way to extract and validate information as it was now methods defined in the user model.
-- 
+- Acquiring the place image and displaying it to the user was difficult. First, the request needed to be parsed for error handling. If anything other than 200 was returned, a placeholder was needed for the jinja logic in index.html to identify that the place had no associated image. Secondly, the image object needed to be kept and returned. This was accomplished by writing and overwriting the image file for the appropriate place. The image url was returned instead of the image object itself.
+- The Google Geolocation API can be inaccurate when used by certain browsers or accessed from networks with certain protective capabilities. As a result, when pressing the "Current Location" button, the incorrect location may be used instead of the user's true current location. As this is an issue with Google's API and not our code, this cannot be improved or remedied on our end.
 ## Areas to be Improved
 - Show more results to the user so that it can be saved to their profile. 
 - Add more User Interface through React.
