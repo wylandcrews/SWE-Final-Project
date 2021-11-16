@@ -40,28 +40,30 @@
         </div>
     </nav>
     <!-- Masthead-->
-    <header class="masthead">
+    <header class="masthead" style="background-image: url(https://images.pexels.com/photos/33109/fall-autumn-red-season.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">
         <div class="container">
             <div class="masthead-heading text-uppercase">{{username}}'s Profile</div>
-            <a class="btn btn-primary btn-xl text-uppercase" href="#discover">Explore Here!</a>
+            <a class="btn btn-primary btn-xl text-uppercase" href="#discover">Travel Here!</a>
         </div>
     </header>
     <!-- Services-->
     <section class="page-section" id="discover">
         <div class="container">
             <div class="text-center">
-                <h2 class="section-heading text-uppercase">Location Finder</h2>
-                <h3 class="section-subheading text-muted">Enter in your location or click current location to locate
-                    where you are!</h3>
+                <h2 class="section-heading text-uppercase">Saved locations</h2>
+                <h3 class="section-subheading text-muted">You can find below your saved searches!</h3>
             </div>
             <div class="row text-center">
                 <span class="fa-stack fa-4x">
                     <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                    <i class="fas fa-map-signs fa-stack-1x fa-inverse"></i>
+                    <i class="fas fa-address-card fa-stack-1x fa-inverse"></i>
                 </span>
+                <div style="padding-bottom: 4%;"></div>
                 <h4>{{fav_place_name}}</h4>
                 {% if fav_photo %}
-                <img src="{{fav_photo}}" alt="Place Image" />
+                <div style="display: flex; justify-content: center;">
+                    <img style="width: 500px; height: auto;" src="{{fav_photo}}" alt="Place Image" />
+                </div>
                 {% endif %}
                 <p>Rating: {{fav_rating}} Stars</p>
                 <div class="form-contents">
