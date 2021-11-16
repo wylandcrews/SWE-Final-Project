@@ -42,8 +42,7 @@
     <!-- Masthead-->
     <header class="masthead">
         <div class="container">
-            <div class="masthead-subheading">Welcome To Map It!</div>
-            <div class="masthead-heading text-uppercase">Find your next destination</div>
+            <div class="masthead-heading text-uppercase">{{username}}'s Profile</div>
             <a class="btn btn-primary btn-xl text-uppercase" href="#discover">Explore Here!</a>
         </div>
     </header>
@@ -60,43 +59,14 @@
                     <i class="fas fa-circle fa-stack-2x text-primary"></i>
                     <i class="fas fa-map-signs fa-stack-1x fa-inverse"></i>
                 </span>
+                <h4>{{fav_place_name}}</h4>
+                {% if fav_photo %}
+                <img src="{{fav_photo}}" alt="Place Image" />
+                {% endif %}
+                <p>Rating: {{fav_rating}} Stars</p>
                 <div class="form-contents">
-                    <form action="/geocoder" method="post">
-                        <input class="search-field" type="text" name="place"
-                            placeholder="Street Address, City, State, Zip">
-                        <input class="btn btn-primary" type="submit" value="Search">
-                    </form>
-                    <form action="/locater" method="post">
-                        <input class="btn btn-primary" type="submit" value="Current Location">
-                    </form>
-                    <hr>
-
-                    {% if currentWeather and weatherImage %}
-                    <p>The current weather in your area is: {{currentWeather}}</p>
-                    <img src="{{weatherImage}}" alt="Weather name">
-                    {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                    <div style="justify-content: center; display: flex;">
-                        {% for message in messages %}
-                        <p class="text-center alert alert-primary" style="width: max-content;" role="alert">{{message}}
-                        </p>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                    {% endwith %}
-                    <br>
-                    <hr>
-                    <h4>{{place_name}}</h4>
-                    {% if photo %}
-                    <img src="{{photo}}" alt="Place Image" />
-                    {% endif %}
-                    <p>Rating: {{rating}} Stars</p>
-                    <input class="btn btn-primary" type="button" onclick="location.href='{{place_url}}'"
+                    <input class="btn btn-primary" type="button" onclick="location.href='{{fav_place_url}}'"
                         value="Visit!" />
-                    <form action="/save" method="post">
-                        <input class="btn btn-primary" type="submit" value="Save as Favorite">
-                    </form>
-                    {% endif %}
                 </div>
             </div>
         </div>

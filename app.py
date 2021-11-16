@@ -2,6 +2,7 @@
 Flask server file for this project
 """
 import os
+import random
 import flask
 from flask import Flask, request, render_template, redirect, url_for, session
 from dotenv import load_dotenv, find_dotenv
@@ -17,6 +18,7 @@ from flask_login import (
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_session import Session
+from favorite_place import favorite_details
 from geocoder import geocode
 from geolocater import geolocate
 from weather import weatherAPI
@@ -273,11 +275,16 @@ def geocoder():
             flask.flash(
                 "The weather outside doesn't look so great, let's explore some indoor activites!"
             )
+            type_list = ["aquarium", "art_gallery", "movie_theater", "museum"]
+            random_number = random.randint(0, len(type_list))
+            place_type = type_list[random_number]
         else:
             flask.flash("Today's a great day for outdoor activites!")
-        # place_type and radius are hardcoded for now
-        place_type = "restaurant"
-        radius = 5000
+            type_list = ["amusement_park", "park", "zoo"]
+            random_number = random.randint(0, len(type_list))
+            place_type = type_list[random_number]
+        # radius is hardcoded to 50 km for now
+        radius = 50000
         payload = get_recommendation(
             lat=lat, lng=lng, place_type=place_type, radius=radius
         )
@@ -307,11 +314,16 @@ def locater():
             flask.flash(
                 "The weather outside doesn't look so great, let's explore some indoor activites!"
             )
+            type_list = ["aquarium", "art_gallery", "movie_theater", "museum"]
+            random_number = random.randint(0, len(type_list))
+            place_type = type_list[random_number]
         else:
             flask.flash("Today's a great day for outdoor activites!")
-        # place_type and radius are hardcoded for now
-        place_type = "restaurant"
-        radius = 5000
+            type_list = ["amusement_park", "park", "zoo"]
+            random_number = random.randint(0, len(type_list))
+            place_type = type_list[random_number]
+        # radius is hardcoded to 50 km for now
+        radius = 50000
         payload = get_recommendation(
             lat=lat, lng=lng, place_type=place_type, radius=radius
         )
@@ -338,9 +350,30 @@ def save_place():
     else:
         db.session.add(savedSearches(username=username, savedplaces=place_id))
     db.session.commit()
-    print(username)
-    print(place_id)
-    return redirect(url_for("index"))
+    return redirect(url_for("profile"))
+
+
+@app.route("/profile")
+def profile():
+    """
+    Render the user's profile
+    """
+    username = current_user.username
+    current_row = savedSearches.query.filter_by(username=username).first()
+    place_id = current_row.savedplaces
+    details = favorite_details(place_id=place_id)
+    fav_photo = details["photo"]
+    fav_place_url = details["url"]
+    fav_rating = details["rating"]
+    fav_place_name = details["name"]
+    return render_template(
+        "profile.html",
+        username=username,
+        fav_photo=fav_photo,
+        fav_place_url=fav_place_url,
+        fav_rating=fav_rating,
+        fav_place_name=fav_place_name,
+    )
 
 
 @app.route("/error", methods=["POST"])
