@@ -268,6 +268,12 @@ def geocoder():
         weatherImage = weatherResults[1]
         session["currentWeather"] = currentWeather
         session["weatherImage"] = weatherImage
+        if "rain" in currentWeather:
+            flask.flash(
+                "The weather outside doesn't look so great, let's explore some indoor activites!"
+            )
+        else:
+            flask.flash("Today's a great day for outdoor activites!")
         # place_type and radius are hardcoded for now
         place_type = "restaurant"
         radius = 5000
@@ -296,6 +302,12 @@ def locater():
         weatherImage = weatherResults[1]
         session["currentWeather"] = currentWeather
         session["weatherImage"] = weatherImage
+        if "rain" in currentWeather:
+            flask.flash(
+                "The weather outside doesn't look so great, let's explore some indoor activites!"
+            )
+        else:
+            flask.flash("Today's a great day for outdoor activites!")
         # place_type and radius are hardcoded for now
         place_type = "restaurant"
         radius = 5000
