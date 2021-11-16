@@ -1,7 +1,7 @@
+Sprint 1 Link: https://swe-final-project-004.herokuapp.com/
 # Map It! by G-Recs
 The Team: Fameda Hossain, Joseph Esfandiari, Swarna Bharathi, and Wyland Crews<br>
-Industry Mentor: Manav Singhal<br>
-Sprint 1 Link: https://swe-final-project-004.herokuapp.com/
+Industry Mentor: Manav Singhal
 ## What is Map It! ?
 ## How We Built It
 ### APIs

@@ -9,6 +9,7 @@ from flask_oauthlib.client import OAuth
 from flask_login import (
     LoginManager,
     login_required,
+    current_user,
     login_user,
     logout_user,
     UserMixin,
@@ -322,6 +323,24 @@ def locater():
         return redirect(url_for("index"))
     except Exception:
         return render_template("error.html")
+
+
+@app.route("/save", methods=["POST"])
+def save_place():
+    """
+    Save place_id to database as user's favorite location
+    """
+    username = current_user.username
+    place_id = session.get("place_id")
+    current_row = savedSearches.query.filter_by(username=username).first()
+    if current_row is not None:
+        current_row.savedplaces = place_id
+    else:
+        db.session.add(savedSearches(username=username, savedplaces=place_id))
+    db.session.commit()
+    print(username)
+    print(place_id)
+    return redirect(url_for("index"))
 
 
 @app.route("/error", methods=["POST"])
