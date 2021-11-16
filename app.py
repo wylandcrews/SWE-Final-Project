@@ -3,6 +3,7 @@ Flask server file for this project
 """
 import os
 import flask
+import random
 from flask import Flask, request, render_template, redirect, url_for, session
 from dotenv import load_dotenv, find_dotenv
 from flask_oauthlib.client import OAuth
@@ -273,11 +274,16 @@ def geocoder():
             flask.flash(
                 "The weather outside doesn't look so great, let's explore some indoor activites!"
             )
+            type_list = ["aquarium", "art_gallery", "movie_theater", "museum"]
+            random_number = random.randint(0, len(type_list))
+            place_type = type_list[random_number]
         else:
             flask.flash("Today's a great day for outdoor activites!")
-        # place_type and radius are hardcoded for now
-        place_type = "restaurant"
-        radius = 5000
+            type_list = ["amusement_park", "park", "zoo"]
+            random_number = random.randint(0, len(type_list))
+            place_type = type_list[random_number]
+        # radius is hardcoded to 50 km for now
+        radius = 50000
         payload = get_recommendation(
             lat=lat, lng=lng, place_type=place_type, radius=radius
         )
@@ -307,11 +313,16 @@ def locater():
             flask.flash(
                 "The weather outside doesn't look so great, let's explore some indoor activites!"
             )
+            type_list = ["aquarium", "art_gallery", "movie_theater", "museum"]
+            random_number = random.randint(0, len(type_list))
+            place_type = type_list[random_number]
         else:
             flask.flash("Today's a great day for outdoor activites!")
-        # place_type and radius are hardcoded for now
-        place_type = "restaurant"
-        radius = 5000
+            type_list = ["amusement_park", "park", "zoo"]
+            random_number = random.randint(0, len(type_list))
+            place_type = type_list[random_number]
+        # radius is hardcoded to 50 km for now
+        radius = 50000
         payload = get_recommendation(
             lat=lat, lng=lng, place_type=place_type, radius=radius
         )
@@ -338,9 +349,15 @@ def save_place():
     else:
         db.session.add(savedSearches(username=username, savedplaces=place_id))
     db.session.commit()
-    print(username)
-    print(place_id)
-    return redirect(url_for("index"))
+    return redirect(url_for("profile"))
+
+#@app.route("/profile")
+#def profile():
+#    """
+#    Render the user's profile
+#    """
+#    username = current_user.username
+#    return render_template("profile.html")
 
 
 @app.route("/error", methods=["POST"])

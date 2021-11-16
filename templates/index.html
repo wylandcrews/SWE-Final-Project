@@ -71,72 +71,20 @@
                     </form>
                     <hr>
 
-                    {% if currentWeather and weatherImage %} 
+                    {% if currentWeather and weatherImage %}
                     <p>The current weather in your area is: {{currentWeather}}</p>
                     <img src="{{weatherImage}}" alt="Weather name">
                     {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                        <div style="justify-content: center; display: flex;">
-                            {% for message in messages %}
-                            <p class="text-center alert alert-primary" style="width: max-content;" role="alert">{{message}}</p>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
+                    {% if messages %}
+                    <div style="justify-content: center; display: flex;">
+                        {% for message in messages %}
+                        <p class="text-center alert alert-primary" style="width: max-content;" role="alert">{{message}}
+                        </p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                     {% endwith %}
                     <br>
-                    <form action="/TODO_ADD_HERE" method="post">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Park">
-                            <label class="form-check-label" for="inlineRadio1">Park</label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Restaurant">
-                            <label class="form-check-label" for="inlineRadio2">Restaurant</label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="Cafe">
-                            <label class="form-check-label" for="inlineRadio3">Cafe</label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="Book Store">
-                            <label class="form-check-label" for="inlineRadio4">Book Store</label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio5" value="Movie Theater">
-                            <label class="form-check-label" for="inlineRadio5">Movie Theater</label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio6" value="Aquarium">
-                            <label class="form-check-label" for="inlineRadio6">Aquarium</label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio7" value="Bakery">
-                            <label class="form-check-label" for="inlineRadio7">Bakery</label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio8" value="Zoo">
-                            <label class="form-check-label" for="inlineRadio8">Zoo</label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio9" value="Museum">
-                            <label class="form-check-label" for="inlineRadio9">Museum</label>
-                        </div>
-
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio10" value="Amusement Park">
-                            <label class="form-check-label" for="inlineRadio10">Amusement Park</label>
-                        </div>
-
-                        <input class="btn btn-primary" type="submit" value="Submit">
-                    </form>
                     <hr>
                     <h4>{{place_name}}</h4>
                     {% if photo %}
