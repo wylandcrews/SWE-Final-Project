@@ -338,6 +338,7 @@ def locater():
 
 
 @app.route("/save", methods=["POST"])
+@login_required
 def save_place():
     """
     Save place_id to database as user's favorite location
@@ -393,6 +394,14 @@ def logout():
     """
     logout_user()
     return flask.redirect(flask.url_for("index"))
+
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    """
+    Redirect user to login if they are not logged in.
+    """
+    return redirect(url_for("login"))
 
 
 app.run(
