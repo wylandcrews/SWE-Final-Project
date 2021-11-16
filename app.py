@@ -395,6 +395,7 @@ def logout():
     logout_user()
     return flask.redirect(flask.url_for("index"))
 
+
 @login_manager.unauthorized_handler
 def unauthorized():
     """
