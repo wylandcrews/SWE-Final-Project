@@ -1,4 +1,5 @@
 Sprint 1 Link: https://swe-final-project-004.herokuapp.com/
+Sprint 2 Link: https://swe-milestone-2.herokuapp.com/
 # Map It! by G-Recs
 The Team: Wyland Crews, Fameda Hossain, Joseph Esfandiari, and Swarna Bharathi<br>
 Industry Mentor: Manav Singhal
