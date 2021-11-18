@@ -91,7 +91,7 @@
                     <img src="{{photo}}" alt="Place Image" />
                     {% endif %}
                     <p>Rating: {{rating}} Stars</p>
-                    <input class="btn btn-primary" type="button" onclick="location.href='{{place_url}}'"
+                    <input class="btn btn-primary" type="button" onclick="window.open('{{place_url}}', '_blank')"
                         value="Visit!" />
                     <form action="/save" method="post">
                         <input class="btn btn-primary" type="submit" value="Save as Favorite">
