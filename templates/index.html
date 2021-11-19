@@ -82,10 +82,14 @@
                         </p>
                         {% endfor %}
                     </div>
+                    <form action="/recommend" method="post">
+                        <input class="btn btn-primary" type="submit" value="Find a Place!">
+                    </form>
                     {% endif %}
                     {% endwith %}
                     <br>
                     <hr>
+                    {% if place_name %}
                     <h4>{{place_name}}</h4>
                     {% if photo %}
                     <img src="{{photo}}" alt="Place Image" />
@@ -96,6 +100,10 @@
                     <form action="/save" method="post">
                         <input class="btn btn-primary" type="submit" value="Save as Favorite">
                     </form>
+                    <form action="/recommend" method="post">
+                        <input class="btn btn-primary" type="submit" value="Find another Place!">
+                    </form>
+                    {% endif %}
                     {% endif %}
                 </div>
             </div>
