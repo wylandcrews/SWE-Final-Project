@@ -2,7 +2,6 @@
 Flask server file for this project
 """
 import os
-import random
 import flask
 from flask import Flask, request, render_template, redirect, url_for, session
 from dotenv import load_dotenv, find_dotenv
@@ -236,10 +235,7 @@ def index():
     photo = session.get("photo", None)
     place_id = session.get("place_id", None)
 
-    if (
-        currentWeather is not None
-        and weatherImage is not None
-    ):
+    if currentWeather is not None and weatherImage is not None:
         if (
             rating is not None
             and place_name is not None
@@ -256,7 +252,7 @@ def index():
                 photo=photo,
                 place_id=place_id,
             )
-        else: 
+        else:
             return render_template(
                 "index.html",
                 currentWeather=currentWeather,
@@ -315,19 +311,14 @@ def locater():
     except Exception:
         return render_template("error.html")
 
+
 @app.route("/recommend", methods=["POST"])
 def recommend():
     """
     Call recommendation from get_recommendation.py to generate payload for place recommendation.
     """
     try:
-        currentWeather = session.get("currentWeather", None)
-        if "rain" in currentWeather:
-            type_list = ["aquarium", "art_gallery", "movie_theater", "museum"]
-        else:
-            type_list = ["amusement_park", "park", "zoo"]
-        random_number = random.randint(0, len(type_list))
-        place_type = type_list[random_number]
+        place_type = request.form["inlineRadioOptions"]
         lat = session.get("lat", None)
         lng = session.get("lng", None)
         # radius is hardcoded to 50 km for now
@@ -343,7 +334,6 @@ def recommend():
         return redirect(url_for("index"))
     except Exception:
         return render_template("error.html")
-
 
 
 @app.route("/save", methods=["POST"])
