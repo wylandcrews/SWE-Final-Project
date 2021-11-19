@@ -2,7 +2,6 @@
 Flask server file for this project
 """
 import os
-import random
 import flask
 from flask import Flask, request, render_template, redirect, url_for, session
 from dotenv import load_dotenv, find_dotenv
@@ -236,25 +235,29 @@ def index():
     photo = session.get("photo", None)
     place_id = session.get("place_id", None)
 
-    if (
-        currentWeather is not None
-        and weatherImage is not None
-        and rating is not None
-        and place_name is not None
-        and place_url is not None
-        and place_id is not None
-    ):
-        return render_template(
-            "index.html",
-            currentWeather=currentWeather,
-            weatherImage=weatherImage,
-            rating=rating,
-            place_name=place_name,
-            place_url=place_url,
-            photo=photo,
-            place_id=place_id,
-        )
-
+    if currentWeather is not None and weatherImage is not None:
+        if (
+            rating is not None
+            and place_name is not None
+            and place_url is not None
+            and place_id is not None
+        ):
+            return render_template(
+                "index.html",
+                currentWeather=currentWeather,
+                weatherImage=weatherImage,
+                rating=rating,
+                place_name=place_name,
+                place_url=place_url,
+                photo=photo,
+                place_id=place_id,
+            )
+        else:
+            return render_template(
+                "index.html",
+                currentWeather=currentWeather,
+                weatherImage=weatherImage,
+            )
     return render_template("index.html")
 
 
@@ -266,6 +269,8 @@ def geocoder():
     try:
         address = request.form["place"]
         lat, lng = geocode(address)
+        session["lat"] = lat
+        session["lng"] = lng
         weatherResults = weatherAPI(lat, lng)
         currentWeather = weatherResults[0]
         weatherImage = weatherResults[1]
@@ -275,24 +280,8 @@ def geocoder():
             flask.flash(
                 "The weather outside doesn't look so great, let's explore some indoor activites!"
             )
-            type_list = ["aquarium", "art_gallery", "movie_theater", "museum"]
-            random_number = random.randint(0, len(type_list))
-            place_type = type_list[random_number]
         else:
             flask.flash("Today's a great day for outdoor activites!")
-            type_list = ["amusement_park", "park", "zoo"]
-            random_number = random.randint(0, len(type_list))
-            place_type = type_list[random_number]
-        # radius is hardcoded to 50 km for now
-        radius = 50000
-        payload = get_recommendation(
-            lat=lat, lng=lng, place_type=place_type, radius=radius
-        )
-        session["rating"] = payload.get("rating")
-        session["place_name"] = payload.get("place_name")
-        session["place_url"] = payload.get("url")
-        session["photo"] = payload.get("photo")
-        session["place_id"] = payload.get("place_id")
         return redirect(url_for("index"))
     except Exception:
         return render_template("error.html")
@@ -306,6 +295,8 @@ def locater():
     try:
         lat, lng = geolocate()
         weatherResults = weatherAPI(lat, lng)
+        session["lat"] = lat
+        session["lng"] = lng
         currentWeather = weatherResults[0]
         weatherImage = weatherResults[1]
         session["currentWeather"] = currentWeather
@@ -314,14 +305,22 @@ def locater():
             flask.flash(
                 "The weather outside doesn't look so great, let's explore some indoor activites!"
             )
-            type_list = ["aquarium", "art_gallery", "movie_theater", "museum"]
-            random_number = random.randint(0, len(type_list))
-            place_type = type_list[random_number]
         else:
             flask.flash("Today's a great day for outdoor activites!")
-            type_list = ["amusement_park", "park", "zoo"]
-            random_number = random.randint(0, len(type_list))
-            place_type = type_list[random_number]
+        return redirect(url_for("index"))
+    except Exception:
+        return render_template("error.html")
+
+
+@app.route("/recommend", methods=["POST"])
+def recommend():
+    """
+    Call recommendation from get_recommendation.py to generate payload for place recommendation.
+    """
+    try:
+        place_type = request.form["inlineRadioOptions"]
+        lat = session.get("lat", None)
+        lng = session.get("lng", None)
         # radius is hardcoded to 50 km for now
         radius = 50000
         payload = get_recommendation(
