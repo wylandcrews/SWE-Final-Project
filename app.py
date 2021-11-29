@@ -223,6 +223,11 @@ def login_facebook():
 
 
 @app.route("/")
+def landing():
+    return render_template("landing.html")
+
+
+@app.route("/index")
 def index():
     """
     Defines the function for the index page.
