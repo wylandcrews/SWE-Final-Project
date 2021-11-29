@@ -61,6 +61,7 @@ class userCredentials(UserMixin, db.Model):
     username = db.Column(db.String(150))
     email = db.Column(db.String(200))
     password = db.Column(db.String(250))
+    userProfilePicture = db.Column(db.String(250))
 
     def __repr__(self):
         """
@@ -126,6 +127,7 @@ def register():
         email = flask.request.form.get("email")
         password = flask.request.form.get("password")
         confirmPassword = flask.request.form.get("confirmPassword")
+        userProfileImage = flask.request.form["inlineRadioOptions"]
 
         if password != confirmPassword:
             flask.flash("The passwords do not match.")
@@ -133,8 +135,13 @@ def register():
         elif username in userList:
             flask.flash("This username already exists, please input another username.")
 
+        elif userProfileImage == "":
+            flask.flash("Please select a profile image.")
+
         else:
-            newUser = userCredentials(username=username, email=email)
+            newUser = userCredentials(
+                username=username, email=email, userProfilePicture=userProfileImage
+            )
             newUser.set_password(password)
             db.session.add(newUser)
             db.session.commit()
@@ -365,6 +372,7 @@ def profile():
     Render the user's profile
     """
     username = current_user.username
+    userProfileImage = current_user.userProfilePicture
     current_row = savedSearches.query.filter_by(username=username).first()
     place_id = current_row.savedplaces
     details = favorite_details(place_id=place_id)
@@ -379,6 +387,7 @@ def profile():
         fav_place_url=fav_place_url,
         fav_rating=fav_rating,
         fav_place_name=fav_place_name,
+        userProfileImage=userProfileImage,
     )
 
 
