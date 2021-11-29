@@ -54,8 +54,10 @@
                 <h2 class="section-heading text-uppercase">Saved locations</h2>
                 <h3 class="section-subheading text-muted">You can find below your saved searches!</h3>
             </div>
-            <img src="{{userProfileImage}}" alt="User Profile Image" style="height: 15%; width: 15%; display: block; margin-left: auto; margin-right: auto;">
+            <img src="{{userProfileImage}}" alt="User Profile Image"
+                style="height: 15%; width: 15%; display: block; margin-left: auto; margin-right: auto;">
             <div class="row text-center">
+                {% if fav_place_name %}
                 <div style="padding-bottom: 4%;"></div>
                 <h4>{{fav_place_name}}</h4>
                 {% if fav_photo %}
@@ -68,6 +70,9 @@
                     <input class="btn btn-primary" type="button" onclick="window.open('{{place_url}}', '_blank')"
                         value="Visit!" />
                 </div>
+                {% else %}
+                <h4>No saved locations yet!</h4>
+                {% endif %}
             </div>
         </div>
     </section>
