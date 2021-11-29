@@ -231,6 +231,9 @@ def login_facebook():
 
 @app.route("/")
 def landing():
+    """
+    Render the landing page.
+    """
     return render_template("landing.html")
 
 
@@ -374,21 +377,29 @@ def profile():
     username = current_user.username
     userProfileImage = current_user.userProfilePicture
     current_row = savedSearches.query.filter_by(username=username).first()
-    place_id = current_row.savedplaces
-    details = favorite_details(place_id=place_id)
-    fav_photo = details["photo"]
-    fav_place_url = details["url"]
-    fav_rating = details["rating"]
-    fav_place_name = details["name"]
-    return render_template(
-        "profile.html",
-        username=username,
-        fav_photo=fav_photo,
-        fav_place_url=fav_place_url,
-        fav_rating=fav_rating,
-        fav_place_name=fav_place_name,
-        userProfileImage=userProfileImage,
-    )
+    if current_row is not None:
+        place_id = current_row.savedplaces
+        details = favorite_details(place_id=place_id)
+        fav_photo = details["photo"]
+        fav_place_url = details["url"]
+        fav_rating = details["rating"]
+        fav_place_name = details["name"]
+        return render_template(
+            "profile.html",
+            username=username,
+            fav_photo=fav_photo,
+            fav_place_url=fav_place_url,
+            fav_rating=fav_rating,
+            fav_place_name=fav_place_name,
+            userProfileImage=userProfileImage,
+        )
+    else:
+        return render_template(
+            "profile.html",
+            username=username,
+            fav_place_name=None,
+            userProfileImage=userProfileImage,
+        )
 
 
 @app.route("/error", methods=["POST"])
