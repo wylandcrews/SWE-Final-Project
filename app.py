@@ -337,7 +337,8 @@ def recommend():
         lat = session.get("lat", None)
         lng = session.get("lng", None)
         # radius is hardcoded to 50 km for now
-        radius = 50000
+        radius = request.form["radius"]
+        radius = int(radius) * 1610
         payload = get_recommendation(
             lat=lat, lng=lng, place_type=place_type, radius=radius
         )
