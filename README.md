@@ -1,7 +1,7 @@
-Sprint 1 Link: https://swe-final-project-004.herokuapp.com/
+Sprint 1 Link: https://swe-final-project-004.herokuapp.com/ <br>
 Sprint 2 Link: https://swe-milestone-2.herokuapp.com/
 # Map It! by G-Recs
-The Team: Wyland Crews, Fameda Hossain, Joseph Esfandiari, and Swarna Bharathi<br>
+The Team: Wyland Crews, Fameda Hossain, and Swarna Bharathi<br>
 Industry Mentor: Manav Singhal
 ## What is Map It! ?
 We have seen recommendation and map apps, but nothing bridges the gap between the two. What Map It! aims to do is recommend destination locations to visitors of our site using the weather at their current location. We hope users will enjoy our activities recommendation platform and have implemented the option for users to save their searched location to their profile. Users can do so by first registering to our app and then logging in.
@@ -37,9 +37,6 @@ The following errors/warnings were disabled for reasons listed below:
 - Acquiring the place image and displaying it to the user was difficult. First, the request needed to be parsed for error handling. If anything other than 200 was returned, a placeholder was needed for the jinja logic in index.html to identify that the place had no associated image. Secondly, the image object needed to be kept and returned. This was accomplished by writing and overwriting the image file for the appropriate place. The image url was returned instead of the image object itself.
 - The Google Geolocation API can be inaccurate when used by certain browsers or accessed from networks with certain protective capabilities. As a result, when pressing the "Current Location" button, the incorrect location may be used instead of the user's true current location. As this is an issue with Google's API and not our code, this cannot be improved or remedied on our end.
 ## Areas to be Improved
-- Show more results to the user so that it can be saved to their profile. 
-- Add more User Interface through React.
-- Allow users to add an avatar to their profile page.
-- Allow users to choose a date in the future to explore results for.
 - Improve our Facebook and Google login capabilities.
-
+- Generate and show multiple search results to the user.
+- Allow the user to save multiple places.
