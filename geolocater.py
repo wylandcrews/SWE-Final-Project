@@ -14,7 +14,10 @@ def geolocate():
     base_url = "https://www.googleapis.com/geolocation/v1/geolocate"
     endpoint = f"{base_url}?key={key}"
     r = requests.post(endpoint)
-    results = r.json()["location"]
-    lat = results["lat"]
-    lng = results["lng"]
-    return lat, lng
+    try:
+        results = r.json()["location"]
+        lat = results["lat"]
+        lng = results["lng"]
+        return lat, lng
+    except KeyError:
+        return None, None
