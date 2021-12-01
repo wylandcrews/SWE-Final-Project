@@ -61,16 +61,20 @@
                         <i class="fas fa-circle fa-stack-2x text-primary"></i>
                         <i class="fas fa-map-signs fa-stack-1x fa-inverse"></i>
                     </span>
+                    <div style="padding-top: 4%;"></div>
                     <div class="form-contents">
                         <form action="/geocoder" method="post">
+                            <label for="datePicker">Select a date within 3 days:</label>
+                            <input type="date" name="datePicker" />
                             <input class="search-field" type="text" name="place"
                                 placeholder="Street Address, City, State, Zip">
                             <input class="btn btn-primary" type="submit" value="Search">
                         </form>
+                        <h3 style="padding-top: 2%; padding-bottom: 2%;">OR</h3>
+
                         <form action="/locater" method="post">
                             <input class="btn btn-primary" type="submit" value="Current Location">
                         </form>
-
                     </div>
                 </div>
             </section>
