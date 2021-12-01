@@ -32,6 +32,9 @@ The following errors/warnings were disabled for reasons listed below:
 - ```too-few-public-methods```: Only seen in the classes used for our database if only the self method is declared. There is no need to have more than 1 method in certain classes.
 - ```unnecessary-pass```: Pass is needed in the event that the user is already logged in.
 - ```unused-argument```: Argument is needed for use in another module.
+- ```unused-import```: Import is used for unit testing.
+- ```unused-variable```: Variable is used for unit testing.
+- ```redefined-outer-name```: Function is separated and used for unit testing.
 ## Challenges We Encountered
 ### Sprint 1
 - The method used to encrypt the password for the registration and login page caused some difficulty in terms of how I was validating the user's inputted password on the login page and the encrypted password that was located in the database. The types of both passwords were different and there wasn't a clear cut solution to solve how to validate that they were equal. The method was later changed to hashing which proved to be a much more safe and easier way to extract and validate information as it was now methods defined in the user model.
@@ -41,6 +44,13 @@ The following errors/warnings were disabled for reasons listed below:
 - Adding additional user input to include a choice of place type, radius, and date did not fit in our original implementation. To accomodate for these new features, most of our server code needed restructuring. After restructuring, our code not only hosted these new features but also looked more readable and modular.
 - Implementing unit testing was very difficult due to the length and complexity of our backend code, especially those that handled API calls. To mitigate this, we further modulated this code that not only allowed unit testing to be implemented, but also made the code look even better.
 - Displaying multiple search results proved to be a challenge. Some fields of the payload would return as None or something unexpected, resulting in the error page rendering more times than actual results. To keep the usability of the app, it was decided that displaying multiple search results was not feasible at the time.
+## What We Learned
+This project helped us all learn how to:
+- Contribute to a shared repository in a safe and effective way.
+- Test not only the code we wrote but the code our teammates wrote.
+- Carefully review Pull Requests.
+- Consider how the code an individual writes affects the entire project.
+- Build something together!
 ## The Future of Map It!
 - Improve our Facebook and Google login capabilities.
 - Generate and show multiple search results to the user.
