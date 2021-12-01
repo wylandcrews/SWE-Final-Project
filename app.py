@@ -23,6 +23,9 @@ from geolocater import geolocate
 from weather import weatherAPI
 from recommendation import get_recommendation
 from auth import OAuthLogin
+import pandas as pd
+from datetime import date
+from datepicker import dateChooser
 
 load_dotenv(find_dotenv())
 
@@ -283,14 +286,33 @@ def geocoder():
     """
     try:
         address = request.form["place"]
+        dateInput = request.form["datePicker"]
+
+        today = date.today().isoformat()
+        dates = pd.date_range(today, periods=3, freq="D")
+        next3Days = []
+        for day in dates:
+            next3Days.append(str(day)[0:10])
+        next3Days.pop(0)
+
         lat, lng = geocode(address)
         session["lat"] = lat
         session["lng"] = lng
-        weatherResults = weatherAPI(lat, lng)
-        currentWeather = weatherResults[0]
-        weatherImage = weatherResults[1]
-        session["currentWeather"] = currentWeather
-        session["weatherImage"] = weatherImage
+
+        if dateInput == today:
+            weatherResults = weatherAPI(lat, lng)
+            currentWeather = weatherResults[0]
+            weatherImage = weatherResults[1]
+            session["currentWeather"] = currentWeather
+            session["weatherImage"] = weatherImage
+
+        elif str(dateInput) in next3Days:
+            weatherResults = dateChooser(dateInput, lat, lng)
+            currentWeather = weatherResults[0]
+            weatherImage = weatherResults[1]
+            session["currentWeather"] = currentWeather
+            session["weatherImage"] = weatherImage
+
         if "rain" in currentWeather:
             flask.flash(
                 "The weather outside doesn't look so great, let's explore some indoor activites!"

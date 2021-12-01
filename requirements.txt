@@ -6,3 +6,4 @@ psycopg2-binary
 Flask-SQLAlchemy
 Flask-Session
 Flask-oauthlib
+pandas
