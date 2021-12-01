@@ -2,6 +2,7 @@
 Flask server file for this project
 """
 import os
+from datetime import date
 import flask
 from flask import Flask, request, render_template, redirect, url_for, session
 from dotenv import load_dotenv, find_dotenv
@@ -16,6 +17,7 @@ from flask_login import (
 )
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+import pandas as pd
 from flask_session import Session
 from favorite_place import favorite_details
 from geocoder import geocode
@@ -23,8 +25,6 @@ from geolocater import geolocate
 from weather import weatherAPI
 from recommendation import get_recommendation
 from auth import OAuthLogin
-import pandas as pd
-from datetime import date
 from datepicker import dateChooser
 
 load_dotenv(find_dotenv())

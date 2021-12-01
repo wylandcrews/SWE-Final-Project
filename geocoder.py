@@ -18,6 +18,9 @@ def geocode(address):
 
 
 def results(r):
+    """
+    Separate results for unit testing
+    """
     try:
         results = r.json()["results"][0]
         lat = results["geometry"]["location"]["lat"]

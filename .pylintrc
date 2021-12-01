@@ -13,4 +13,5 @@ disable=
     unnecessary-pass,
     unused-argument,
     unused-import,
-    unused-variable
+    unused-variable,
+    redefined-outer-name
