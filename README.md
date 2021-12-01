@@ -1,5 +1,5 @@
+### Sprint 2 Link: https://swe-milestone-2.herokuapp.com/
 Sprint 1 Link: https://swe-final-project-004.herokuapp.com/ <br>
-Sprint 2 Link: https://swe-milestone-2.herokuapp.com/
 # Map It! by G-Recs
 The Team: Wyland Crews, Fameda Hossain, and Swarna Bharathi<br>
 Industry Mentor: Manav Singhal
@@ -33,10 +33,15 @@ The following errors/warnings were disabled for reasons listed below:
 - ```unnecessary-pass```: Pass is needed in the event that the user is already logged in.
 - ```unused-argument```: Argument is needed for use in another module.
 ## Challenges We Encountered
+### Sprint 1
 - The method used to encrypt the password for the registration and login page caused some difficulty in terms of how I was validating the user's inputted password on the login page and the encrypted password that was located in the database. The types of both passwords were different and there wasn't a clear cut solution to solve how to validate that they were equal. The method was later changed to hashing which proved to be a much more safe and easier way to extract and validate information as it was now methods defined in the user model.
 - Acquiring the place image and displaying it to the user was difficult. First, the request needed to be parsed for error handling. If anything other than 200 was returned, a placeholder was needed for the jinja logic in index.html to identify that the place had no associated image. Secondly, the image object needed to be kept and returned. This was accomplished by writing and overwriting the image file for the appropriate place. The image url was returned instead of the image object itself.
 - The Google Geolocation API can be inaccurate when used by certain browsers or accessed from networks with certain protective capabilities. As a result, when pressing the "Current Location" button, the incorrect location may be used instead of the user's true current location. As this is an issue with Google's API and not our code, this cannot be improved or remedied on our end.
-## Areas to be Improved
+### Sprint 2
+- Adding additional user input to include a choice of place type, radius, and date did not fit in our original implementation. To accomodate for these new features, most of our server code needed restructuring. After restructuring, our code not only hosted these new features but also looked more readable and modular.
+- Implementing unit testing was very difficult due to the length and complexity of our backend code, especially those that handled API calls. To mitigate this, we further modulated this code that not only allowed unit testing to be implemented, but also made the code look even better.
+- Displaying multiple search results proved to be a challenge. Some fields of the payload would return as None or something unexpected, resulting in the error page rendering more times than actual results. To keep the usability of the app, it was decided that displaying multiple search results was not feasible at the time.
+## The Future of Map It!
 - Improve our Facebook and Google login capabilities.
 - Generate and show multiple search results to the user.
 - Allow the user to save multiple places.
