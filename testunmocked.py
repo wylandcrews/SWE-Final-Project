@@ -1,3 +1,6 @@
+"""
+Unmocked Unit Tests
+"""
 import unittest
 import sys
 import os
@@ -13,7 +16,14 @@ EXPECTED_OUTPUT = "EXPECTED_OUTPUT"
 
 
 class Testresults(unittest.TestCase):
+    """
+    Test class
+    """
+
     def setUp(self):
+        """
+        Test Constructor
+        """
         self.success_test_params = [
             {
                 INPUT: {},
@@ -26,6 +36,9 @@ class Testresults(unittest.TestCase):
         ]
 
     def test_geocoder_data(self):
+        """
+        Test geocoder method
+        """
         for test in self.success_test_params:
             self.assertEqual(results(test[INPUT]), test[EXPECTED_OUTPUT])
 
