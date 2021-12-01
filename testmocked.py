@@ -1,3 +1,6 @@
+"""
+Mocked Unit Tests
+"""
 import unittest
 import sys
 import os
@@ -8,7 +11,14 @@ from weather import weatherAPI
 
 
 class GetLongitutdeTest(unittest.TestCase):
+    """
+    Test that Lat/long can be retrieved
+    """
+
     def test_get_longitude(self):
+        """
+        Test function
+        """
         with patch("geocoder.requests.get") as mock_requests_get:
             mock_response = MagicMock()
 
@@ -37,7 +47,14 @@ class GetLongitutdeTest(unittest.TestCase):
 
 
 class GetlocaterTest(unittest.TestCase):
+    """
+    Test geolocater
+    """
+
     def test_get_locater(self):
+        """
+        Test function
+        """
         with patch("geolocater.requests.get") as mock_requests_get:
             mock_response = MagicMock()
 
@@ -62,7 +79,14 @@ class GetlocaterTest(unittest.TestCase):
 
 
 class GetWeatherTest(unittest.TestCase):
+    """
+    Test calls to Weather API
+    """
+
     def test_get_locater(self):
+        """
+        Test function
+        """
         with patch("weather.requests.get") as mock_requests_get:
             mock_response = MagicMock()
 

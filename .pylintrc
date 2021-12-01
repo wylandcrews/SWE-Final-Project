@@ -11,4 +11,6 @@ disable=
     no-member,
     too-few-public-methods,
     unnecessary-pass,
-    unused-argument
+    unused-argument,
+    unused-import,
+    unused-variable
