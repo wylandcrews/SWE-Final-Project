@@ -165,11 +165,14 @@ def login():
 
     if flask.request.method == "POST":
         email = flask.request.form.get("email")
+        if email not in emailList:
+            flask.flash("Email not found. Please register.")
+            return render_template("login.html")
         password = flask.request.form.get("password")
         current = userCredentials.query.filter_by(email=email).first()
         passwordCheck = current.check_password(password)
 
-        if email not in emailList or passwordCheck is False:
+        if passwordCheck is False:
             flask.flash("This email or password combination is incorrect.")
 
         else:
